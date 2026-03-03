@@ -119,8 +119,7 @@ export default function Hero() {
         </h1>
 
         <p ref={textRef} className="max-w-2xl mx-auto text-xl md:text-2xl mb-12 leading-relaxed gpu-accelerated" style={{ color: 'var(--color-muted)' }}>
-          A mindblowing experience crafted for those who demand perfection.
-          Experience the next generation of landing page design.
+          TEXTS
         </p>
 
         <div ref={buttonsRef} className="flex flex-col sm:flex-row items-center justify-center gap-6 gpu-accelerated">
