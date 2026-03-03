@@ -18,32 +18,21 @@ function CustomCursor() {
 
   useEffect(() => {
     const moveCursor = (e: MouseEvent) => {
-      gsap.to(cursorRef.current, {
-        x: e.clientX,
-        y: e.clientY,
-        duration: 0.1,
-        force3D: true
-      });
-      gsap.to(followerRef.current, {
-        x: e.clientX - 10,
-        y: e.clientY - 10,
-        duration: 0.25,
-        force3D: true
-      });
+      gsap.to(cursorRef.current, { x: e.clientX, y: e.clientY, duration: 0.1, force3D: true });
+      gsap.to(followerRef.current, { x: e.clientX - 10, y: e.clientY - 10, duration: 0.25, force3D: true });
     };
 
     const handleHover = () => {
-      gsap.to(cursorRef.current, { scale: 2.5, backgroundColor: 'rgba(37, 99, 235, 0.9)', force3D: true });
+      gsap.to(cursorRef.current, { scale: 2.5, backgroundColor: 'var(--color-primary)', force3D: true });
       gsap.to(followerRef.current, { scale: 1.5, opacity: 0, force3D: true });
     };
 
     const handleLeave = () => {
-      gsap.to(cursorRef.current, { scale: 1, backgroundColor: 'rgba(37, 99, 235, 0.6)', force3D: true });
+      gsap.to(cursorRef.current, { scale: 1, backgroundColor: 'rgba(223, 241, 34, 0.6)', force3D: true });
       gsap.to(followerRef.current, { scale: 1, opacity: 1, force3D: true });
     };
 
     window.addEventListener('mousemove', moveCursor);
-    
     const interactiveElements = document.querySelectorAll('button, a, input, textarea, .cursor-pointer');
     interactiveElements.forEach((el) => {
       el.addEventListener('mouseenter', handleHover);
@@ -56,15 +45,14 @@ function CustomCursor() {
         el.removeEventListener('mouseenter', handleHover);
         el.removeEventListener('mouseleave', handleLeave);
       });
-      // Kill all tweens on cleanup
       gsap.killTweensOf([cursorRef.current, followerRef.current]);
     };
   }, []);
 
   return (
     <>
-      <div ref={cursorRef} className="custom-cursor hidden md:block !bg-blue-600/60 gpu-accelerated" />
-      <div ref={followerRef} className="custom-cursor-follower hidden md:block !border-blue-400/40 gpu-accelerated" />
+      <div ref={cursorRef} className="custom-cursor hidden md:block gpu-accelerated" />
+      <div ref={followerRef} className="custom-cursor-follower hidden md:block gpu-accelerated" />
     </>
   );
 }
@@ -77,33 +65,13 @@ function Preloader({ onComplete }: { onComplete: () => void }) {
   useEffect(() => {
     const tl = gsap.timeline({
       onComplete: () => {
-        gsap.to(containerRef.current, {
-          yPercent: -100,
-          duration: 1,
-          ease: 'expo.inOut',
-          onComplete,
-          force3D: true
-        });
+        gsap.to(containerRef.current, { yPercent: -100, duration: 1, ease: 'expo.inOut', onComplete, force3D: true });
       }
     });
 
-    tl.fromTo(textRef.current, 
-      { opacity: 0, y: 20 }, 
-      { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', force3D: true }
-    )
-    .to(progressRef.current, {
-      width: '100%',
-      duration: 2,
-      ease: 'power4.inOut',
-      force3D: true
-    })
-    .to(textRef.current, {
-      opacity: 0,
-      y: -20,
-      duration: 0.5,
-      ease: 'power3.in',
-      force3D: true
-    });
+    tl.fromTo(textRef.current, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', force3D: true })
+      .to(progressRef.current, { width: '100%', duration: 2, ease: 'power4.inOut', force3D: true })
+      .to(textRef.current, { opacity: 0, y: -20, duration: 0.5, ease: 'power3.in', force3D: true });
 
     return () => {
       tl.kill();
@@ -112,12 +80,12 @@ function Preloader({ onComplete }: { onComplete: () => void }) {
   }, [onComplete]);
 
   return (
-    <div ref={containerRef} className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center gpu-accelerated">
-      <div ref={textRef} className="mb-8 text-white font-display font-bold text-2xl tracking-widest uppercase gpu-accelerated">
-        Initializing Future...
+    <div ref={containerRef} className="fixed inset-0 z-[100] flex flex-col items-center justify-center" style={{ backgroundColor: '#000000', willChange: 'transform' }}>
+      <div ref={textRef} className="mb-8 font-display font-bold text-2xl tracking-widest uppercase" style={{ color: 'var(--color-accent)', willChange: 'transform, opacity' }}>
+        Welcome to Stinablis
       </div>
-      <div className="w-64 h-[2px] bg-white/10 rounded-full overflow-hidden gpu-accelerated">
-        <div ref={progressRef} className="h-full w-0 bg-blue-600 shadow-[0_0_15px_rgba(37,99,235,0.8)] gpu-accelerated" />
+      <div className="w-64 h-[2px] rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}>
+        <div ref={progressRef} className="h-full" style={{ width: '0%', backgroundColor: 'var(--color-accent)', boxShadow: '0 0 15px color-mix(in srgb, var(--color-accent) 80%, transparent)', willChange: 'width' }} />
       </div>
     </div>
   );
@@ -127,7 +95,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   return (
-    <div className="min-h-screen bg-white selection:bg-blue-100 selection:text-blue-900">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--color-bg)' }}>
       {loading && <Preloader onComplete={() => setLoading(false)} />}
       <CustomCursor />
       <Navbar />

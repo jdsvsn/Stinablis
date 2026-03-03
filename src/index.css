@@ -2,52 +2,70 @@
 @import "tailwindcss";
 
 @theme {
+  /* Typography */
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Space Grotesk", sans-serif;
-  
-  --color-primary: #000000;
-  --color-accent: #3B82F6;
+
+  /* Color System */
+  --color-primary: #231f20;   /* Deep charcoal */
+  --color-background: #eef4f6; /* Soft cool white */
+  --color-accent: #dff122;    /* Neon lime */
+  --color-muted: #aca7a9;     /* Muted gray */
 }
 
 @layer base {
   body {
-    @apply font-sans text-gray-900 bg-white overflow-x-hidden;
+    @apply font-sans overflow-x-hidden;
+    background: var(--color-background);
+    color: var(--color-primary);
   }
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-display tracking-tight;
+    color: var(--color-primary);
   }
-  button {
-    @apply cursor-pointer;
+
+  p {
+    color: var(--color-muted);
+  }
+}
+
+@layer components {
+  .btn-primary {
+    background: var(--color-primary);
+    color: var(--color-background);
+    @apply px-6 py-3 rounded-full transition-all duration-300;
+  }
+  .btn-primary:hover {
+    background: var(--color-accent);
+    color: var(--color-primary);
+  }
+
+  .btn-accent {
+    background: var(--color-accent);
+    color: var(--color-primary);
+    @apply px-6 py-3 rounded-full transition-all duration-300;
+  }
+  .btn-accent:hover {
+    background: var(--color-primary);
+    color: var(--color-background);
   }
 }
 
 @layer utilities {
-  .perspective-1000 {
-    perspective: 1000px;
+  .text-muted {
+    color: #aca7a9;
   }
-  .perspective-2000 {
-    perspective: 2000px;
+
+  .bg-glass {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(12px);
   }
-  .preserve-3d {
-    transform-style: preserve-3d;
+
+  .border-soft {
+    border: 1px solid rgba(35, 31, 32, 0.1);
   }
-  .animate-bounce-slow {
-    animation: bounce-slow 4s infinite ease-in-out;
-  }
-  .animate-float {
-    animation: float 6s infinite ease-in-out;
-  }
-  .will-change-transform {
-    will-change: transform;
-  }
-  .will-change-opacity {
-    will-change: opacity;
-  }
-  .gpu-accelerated {
-    transform: translateZ(0);
-    will-change: transform, opacity;
-    contain: layout style;
-  }
+
 }
 
 @keyframes bounce-slow {
@@ -65,7 +83,7 @@
 .custom-cursor {
   width: 20px;
   height: 20px;
-  background: rgba(59, 130, 246, 0.5);
+  background: rgba(223, 241, 34, 0.35); /* #DFF122 */
   border-radius: 50%;
   position: fixed;
   top: 0;
@@ -79,7 +97,7 @@
 .custom-cursor-follower {
   width: 40px;
   height: 40px;
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  border: 1px solid rgba(223, 241, 34, 0.35);
   border-radius: 50%;
   position: fixed;
   top: 0;
